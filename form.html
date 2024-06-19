@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Registration Form
+        </title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script>
+            async function fetchData(event) {
+              event.preventDefault();
+              const fName = document.getElementById('f_name').value;
+              const response = await fetch(`/data?f_name=${fName}`);
+              const data = await response.json();
+              const resultSection = document.getElementById('results');
+              
+              resultSection.innerHTML = '<h2>Student Details</h2>';
+              if (data.length > 0) {
+                const table = document.createElement('table');
+                table.border = '1';
+        
+                const headerRow = document.createElement('tr');
+                headerRow.innerHTML = '<th>First Name</th><th>Email</th><th>Id</th>';
+                table.appendChild(headerRow);
+        
+                data.forEach(row => {
+                  const rowElement = document.createElement('tr');
+                  rowElement.innerHTML = `<td>${row.name}</td><td>${row.email}</td><td>${row.id}</td>`;
+                  table.appendChild(rowElement);
+                });
+        
+                resultSection.appendChild(table);
+              } else {
+                resultSection.innerHTML += '<p>No data found</p>';
+              }
+            }
+          </script>
+    </head>
+
+
+    <body>
+        <img class="im" src="/form/login.png">
+        <div class="rform"><h1> Registration Form</h1></div>
+        <div class="sec2">
+            <form id="register" action="/" method="POST">
+                <div id="name">
+                    <h2 class="name">Name</h2>  
+                    <input class="fname" id ="fname" type="text" required name="f_name" placeholder="Your Name" size="40"><br>
+                    <h2 class="name">Mail Id</h2>
+                    <input class="mail" id="mail" type="text" required name="mail" placeholder="xyz@mail.com" size="40"><br>
+                    <!-- <h2 class="name">Phone No.</h2>
+                    <input class="phone" id="phone" type="text" required name="phone" placeholder="123456789" size="40"><br> -->
+
+                     <br>   
+                     <button type="reset" id="reset" style="vertical-align:middle"><span>Clear </span></button>
+                     <button type="submit" id="submit" style="vertical-align:middle"><span>Submit </span></button>
+                    
+            </div>  
+            </form>
+        </div>
+        <form onsubmit="fetchData(event)">
+            <label for="f_name">First Name:</label>
+            <input type="text" id="f_name" name="f_name" required>
+            <button type="submit">Search</button>
+          </form>
+          <div id="results"></div>
+
+        <!-- <script src="./forms/form.js"></script> -->
+
+    </body>
+</html>
